@@ -1,4 +1,8 @@
 cs725-hw
 cs725_hw1.pdf
 test.py
-.DS_Store
+*.DS_Store
+*.aux
+*.log
+*.synctex.gz
+*.tex

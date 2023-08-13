@@ -132,8 +132,6 @@ class LinearClassifier:
         return output_y
 
 
-
-
 if __name__ == "__main__":
     model = LinearClassifier()
     p = model.sigmoid(tx[0])

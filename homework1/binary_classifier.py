@@ -29,7 +29,9 @@ class LogisticRegression:
         """
         self.num_classes = 1 # single set of weights needed
         self.d = 2 # input space is 2D. easier to visualize
-        self.weights = np.zeros((self.d+1, self.num_classes)) # w0 is bias
+        self.weights = np.random.rand(self.d+1, self.num_classes)
+        #self.weights = np.zeros((self.d+1, self.num_classes)) # w0 is bias
+        #self.weights = np.array([0, 1, 0]) # w0 is bias
 
     def preprocess(self, input_x):
         """
@@ -43,7 +45,7 @@ class LogisticRegression:
         x -- NumPy array with shape (self.d, 1)
         """
         z = np.dot(self.weights[1:].reshape((len(x),)),x) + self.weights[0]
-        f = 1 / (1 + math.exp(-z))
+        f = math.exp(z) / (1 + math.exp(z))
         return f
 
     def calculate_loss(self, input_x, input_y):
@@ -85,10 +87,10 @@ class LogisticRegression:
                 if j > 0:
                     weight_error += error * input_x[i][j-1]
 
-        if j == 0:
-            grad_vec[j] = bias_error/num_train
-        else:
-            grad_vec[j] = weight_error/num_train
+            if j == 0:
+                grad_vec[j] = bias_error/num_train
+            else:
+                grad_vec[j] = weight_error/num_train
 
         return grad_vec
 
@@ -123,7 +125,6 @@ class LogisticRegression:
                 output_y[i] = 0
 
         return output_y
-
 
 
 if __name__ == "__main__":

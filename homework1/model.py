@@ -123,6 +123,7 @@ class LinearClassifier:
         self.num_classes = 3 # 3 classes
         self.d = 4 # 4 dimensional features
         #self.weights = np.zeros((self.d+1, self.num_classes)) # w0 is bias
+        self.v = np.zeros((self.d+1, self.num_classes))
         self.weights = np.random.rand(self.d+1, self.num_classes) # w0 is bias
 
     def preprocess(self, train_x):
@@ -207,8 +208,9 @@ class LinearClassifier:
         The function should update `self.weights` with the help of `grad`, `learning_rate` and `momentum`
         """
         w_old = self.weights
-        w_new = w_old - learning_rate * grad
-        self.weights = w_new
+        v_old = self.v
+        v_new = v_old * momentum - learning_rate * grad
+        self.weights = w_old + v_new
 
     def get_prediction(self, input_x):
         """

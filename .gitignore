@@ -5,3 +5,6 @@ test.py
 *.aux
 *.log
 *.synctex.gz
+homework1/*
+!homework1/model.py
+!homework1/submission

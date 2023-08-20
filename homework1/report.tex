@@ -31,91 +31,10 @@ Naay Balodia\\
 \maketitle
 \thispagestyle{fancy}
 \begin{abstract}
-In this assignment, we will implement logistic regression model on a toy datasets for binary classification and linear classification model on a toy datasets for multi class classification. Our key goal in this assignment is to correctly implement these models and analyze the results we obtain.
+In this assignment, we will implement logistic regression model on a toy datasets for binary classification and linear classification model on a toy datasets for multi class classification. Our key goal in this assignment is to correctly implement these models and analyze the results we obtained.
 \end{abstract}
 		
 \section{Logistic Regression}\label{S:LR}
-\subsection{Learning Rate}\label{SS:lr-rate}
-The learning rate is a crucial hyper-parameter in machine learning algorithms, especially in gradient-based optimization methods like gradient descent. It determines the step size at which the algorithm updates the model's parameters during training. A higher learning rate can lead to faster convergence, but it might also cause overshooting and divergence. Conversely, a lower learning rate can lead to slower convergence, potentially getting stuck in local minima. Finding the right balance is essential for achieving optimal training performance and avoiding convergence issues. Experimenting with different learning rates helps identify the optimal rate that maximizes the model's accuracy and minimizes its loss during training and validation.
-\par
-The impact of varying learning rates on accuracy and loss was explored for the Logistic Regression (LR) model. The outcomes of these experiments can be summarized as follows:
-\begin{description}
-\item[Training accuracy:] Analyzing Figure \ref{F:LR_effect_lr_train_acc} reveals that the Logistic Regression (LR) model achieves its highest accuracy when the learning rate is set to $10^{-1}$. As anticipated, a higher learning rate contributes to swift convergence, requiring fewer than 100 epochs. However, the experiment's scope extends to a higher number of epochs to gauge the impact of a slower learning rate, which demands more epochs for convergence. The figure also underscores that a slower learning rate like $10^{-6}$ necessitates very large number of epochs for convergence whereas 1000 epochs as shown in the figure are not sufficient.  The relationship between learning rate and training performance is not always linear (as evident from the figure), and it's possible to encounter situations where a smaller learning rate (e.g., $10^-6$) yields better training accuracy than a larger learning rate (e.g., $10^-4$). This phenomenon can be attributed to the concept of the learning rate's impact on optimization.
-\item[Training loss:] From Figure \ref{F:LR_effect_lr_train_loss}, it is evident that the loss is minimum and achieves convergence in lowest number of epochs when the learning rate is set to $10^{-1}$. As expected, a lower learning rate will require more number of epochs to achieve minimum loss.
-\item[Validation accuracy:] It can be seen from Figure \ref{F:LR_effect_lr_val_acc} that the validation accuracy is highest when the learning rate is set to $10^{-1}$.  For lower learning rates, the number of epoch 1000 is insufficient to achieve convergence.
-\item[Validation loss:] It can be seen from Figure \ref{F:LR_effect_lr_val_loss} that the validation loss is minimum when the learning rate is set to $10^{-1}$. It is also evident that the number of epoch 100 is optimum in terms of loss --- increasing from 100 will lead to increase in the loss.
-\end{description}
-\par
-In summary, the learning rate of $10^{-1}$ is optimal for this LR model as it reaches to convergence in less number of epochs without having significant impact on the accuracy and loss of the LR model. \textbf{Therefore, we select learning rate of $10^{-1}$ as the best learning rate for the Logistic Regression model.}
-
-\begin{figure}[h!]
-\centering
-\includegraphics[width=\textwidth]{LR_effect_lr_train_acc}
-\caption{Effect of learning rate on training accuracy of LR model}
-\label{F:LR_effect_lr_train_acc}
-\end{figure}
-\begin{figure}[h!]
-\centering
-\includegraphics[width=\textwidth]{LR_effect_lr_train_loss}
-\caption{Effect of learning rate on training loss of LR model}
-\label{F:LR_effect_lr_train_loss}
-\end{figure}
-\begin{figure}[h!]
-\centering
-\includegraphics[width=\textwidth]{LR_effect_lr_val_acc}
-\caption{Effect of learning rate on validation accuracy of LR model}
-\label{F:LR_effect_lr_val_acc}
-\end{figure}
-\begin{figure}[h!]
-\centering
-\includegraphics[width=\textwidth]{LR_effect_lr_val_loss}
-\caption{Effect of learning rate on validation loss of LR model}
-\label{F:LR_effect_lr_val_loss}
-\end{figure}
-
-\subsection{Number of Epoch}\label{SS:lr-ep}
-The number of epochs in machine learning signifies the count of times the entire data set is iterated through during training. The choice of the number of epochs plays a pivotal role in model performance. Too few epochs may lead to under-fitting, where the model hasn't learned enough from the data, while too many epochs might cause over-fitting, where the model captures noise in the training data, failing to generalize well to new data. Striking the right balance by monitoring validation performance helps achieve optimal model training and prevent over-fitting or premature convergence.
-\par
-The number of epoch are varied while keeping the learning rate same as $10^{-1}$ which is the best value of learning rate. It can be observed on Figure \ref{F:LR_effect_ep_acc} and Figure \ref{F:LR_effect_ep_loss} that the number of epoch 250 is optimal as it reaches convergence early and it has slightly better accuracy than the number of epoch 100. Nevertheless, the difference in accuracy and loss in both training and validation data set between epoch 100 and epoch 250 is insignificant. However, we choose number of epoch 250 as best because of the uncertainty in unseen data where number of epoch 100 might not be sufficient to reach the convergence. \textbf{Therefore, we select number of epoch of $250$ as the best number of epoch for the Logistic Regression model.}
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[width=\textwidth]{LR_effect_ep_acc}
-	\caption{Effect of number of epoch on  accuracy of LR model}
-	\label{F:LR_effect_ep_acc}
-\end{figure}
-\begin{figure}[h!]
-	\centering
-	\includegraphics[width=\textwidth]{LR_effect_ep_loss}
-	\caption{Effect of number of epoch on loss of LR model}
-	\label{F:LR_effect_ep_loss}
-\end{figure}
-
-\subsection{Momentum}\label{SS:lr-mom}
-Momentum is a critical concept in optimization algorithms that enhances the convergence of machine learning models. By introducing a notion of momentum, the optimization process gains the ability to overcome local minima and accelerate convergence towards optimal solutions. In the context of a Logistic Regression (LR) model, momentum affects the parameter updates during training. The equation $v = \mu v - \lambda \nabla L(w)$ showcases how the gradient descent direction is influenced by the accumulated momentum term ($v$) and the learning rate ($\lambda$). The updated weight parameters ($w = w + v$) then reflect the combined effect of both momentum and learning rate, effectively steering the model towards better convergence paths.
-\par
-The momentum values are varied while keeping the learning rate same as $10^{-1}$ which is the best value of learning rate and keeping the number of epoch same as $250$ which is the best value of epoch. It can be observed on Figure \ref{F:LR_effect_mom_acc} and Figure \ref{F:LR_effect_mom_loss} that the momentum value of $0.9$ helped to achieve the convergence on accuracy earlier than the momentum value of 0. However, the higher momentum value has a slightly lower accuracy than the lower momentum value of 0. Similarly, the loss corresponding to higher momentum value of $0.9$ is slightly higher than the loss corresponding to lower momentum value of 0. In summary, it is evident that keeping a high momentum value increases the speed of the training process but there will be a trade off with the accuracy. For this example, since the number of epoch is kept as 250 and there is no problem of slow convergence, we give more weight to the accuracy over speed. \textbf{Therefore, we select momentum value of 0 as the best value of momentum for the Logistic Regression model.} 
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[width=\textwidth]{LR_effect_mom_acc}
-	\caption{Effect of momentum on  accuracy of LR model}
-	\label{F:LR_effect_mom_acc}
-\end{figure}
-\begin{figure}[h!]
-	\centering
-	\includegraphics[width=\textwidth]{LR_effect_mom_loss}
-	\caption{Effect of momentum on loss of LR model}
-	\label{F:LR_effect_mom_loss}
-\end{figure}
-
-\subsection{Initial Weights}\label{SS:lr-w0}
-Choosing initial weights properly is crucial as it significantly affects the optimization process and the final performance of a machine learning model. Poor initial weights can lead to slow convergence, getting stuck in local minima, or even divergence. Well-chosen initial weights provide the model with a favorable starting point, enabling faster convergence and better chances of finding globally optimal solutions. Appropriate initialization strategies help enhance training stability, prevent vanishing or exploding gradients, and improve the overall efficiency of the learning process.
-\par
-Random initialization assigns different starting points to each weight, which breaks symmetry and introduces diversity in the learning process. This diversification aids in capturing distinct features and patterns in the data. Moreover, random initialization prevents the model from converging to the same values, which enhances the model's capacity to learn complex relationships and generalize better to new data. Overall, random initialization promotes effective training by introducing variety and reducing the risk of symmetrical weight updates. 
-\par
-In this example, since there were only 2 input features, we could have initialized the weights manually by plotting the data in 2D plane. One of such manually selected weight could be $[w_0 = 0, w_1 = 1, w_2 = 0]$ since the decision boundary equation would be $x_1 = 0$ for the given training example. However, to keep the model generalized that works on any type of training example (in case we decide to train the model on different set of training data), we select the initial weights by random initialization as described above in this section.
-
 \subsection{Gradient of Loss Function}\label{SS:lr-grad}
 The scoring function for logistic regression is typically represented as the linear combination of the input features weighted by the model's learned parameters. Given a set of input features $\bar{x} = (x_1, x_2, \dots , x_d)$
 and the corresponding weights $\bar{w} = (w_1, w_2, \dots , w_d)$, the scoring function $z$ can be expressed as \cite{ddl_book}:
@@ -163,7 +82,42 @@ Applying the chain rule, the gradient \cite{ang_ml} can be written as:
 	\frac{\partial J(\bar{w}, w_0)}{\partial w_0} &= - \frac{1}{N} \sum_{i=1}^{N} \left[  f(\bar{x}^i; \bar{w}, w_0) - y^i   \right] \times \left[ 1 \right] 
 \end{align}
 Where $z = \bar{w} \cdot \bar{x} + w_0$ 
+
+\subsection{Learning Rate}\label{SS:lr-rate}
+The learning rate is a crucial hyper-parameter in machine learning algorithms, especially in gradient-based optimization methods like gradient descent. It determines the step size at which the algorithm updates the model's parameters during training. A higher learning rate can lead to faster convergence, but it might also cause overshooting and divergence. Conversely, a lower learning rate can lead to slower convergence, potentially getting stuck in local minima. Finding the right balance is essential for achieving optimal training performance and avoiding convergence issues. Experimenting with different learning rates helps identify the optimal rate that maximizes the model's accuracy and minimizes its loss during training and validation.
+\par
+The impact of varying learning rates on accuracy and loss was explored for the Logistic Regression (LR) model. The outcomes of these experiments can be summarized as follows:
+\begin{description}
+\item[Training accuracy:] Analyzing Figure \ref{F:LR_effect_lr_train_acc} reveals that the Logistic Regression (LR) model achieves its highest accuracy when the learning rate is set to $10^{-1}$. As anticipated, a higher learning rate contributes to swift convergence, requiring fewer than 100 epochs. However, the experiment's scope extends to a higher number of epochs to gauge the impact of a slower learning rate, which demands more epochs for convergence. The figure also underscores that a slower learning rate like $10^{-6}$ necessitates very large number of epochs for convergence whereas 1000 epochs as shown in the figure are not sufficient.  The relationship between learning rate and training performance is not always linear (as evident from the figure), and it's possible to encounter situations where a smaller learning rate (e.g., $10^-6$) yields better training accuracy than a larger learning rate (e.g., $10^-4$). This phenomenon can be attributed to the concept of the learning rate's impact on optimization.
+\item[Training loss:] From Figure \ref{F:LR_effect_lr_train_loss}, it is evident that the loss is minimum and achieves convergence in lowest number of epochs when the learning rate is set to $10^{-1}$. As expected, a lower learning rate will require more number of epochs to achieve minimum loss.
+\item[Validation accuracy:] It can be seen from Figure \ref{F:LR_effect_lr_val_acc} that the validation accuracy is highest when the learning rate is set to $10^{-1}$.  For lower learning rates, the number of epoch 1000 is insufficient to achieve convergence.
+\item[Validation loss:] It can be seen from Figure \ref{F:LR_effect_lr_val_loss} that the validation loss is minimum when the learning rate is set to $10^{-1}$. It is also evident that the number of epoch 100 is optimum in terms of loss --- increasing from 100 will lead to increase in the loss.
+\end{description}
+\par
+In summary, the learning rate of $10^{-1}$ is optimal for this LR model as it reaches to convergence in less number of epochs without having significant impact on the accuracy and loss of the LR model. \textbf{Therefore, we select learning rate of $10^{-1}$ as the best learning rate for the Logistic Regression model.}
+\subsection{Number of Epoch}\label{SS:lr-ep}
+The number of epochs in machine learning signifies the count of times the entire data set is iterated through during training. The choice of the number of epochs plays a pivotal role in model performance. Too few epochs may lead to under-fitting, where the model hasn't learned enough from the data, while too many epochs might cause over-fitting, where the model captures noise in the training data, failing to generalize well to new data. Striking the right balance by monitoring validation performance helps achieve optimal model training and prevent over-fitting or premature convergence.
+\par
+The number of epoch are varied while keeping the learning rate same as $10^{-1}$ which is the best value of learning rate. It can be observed on Figure \ref{F:LR_effect_ep_acc} and Figure \ref{F:LR_effect_ep_loss} that the number of epoch 250 is optimal as it reaches convergence early and it has slightly better accuracy than the number of epoch 100. Nevertheless, the difference in accuracy and loss in both training and validation data set between epoch 100 and epoch 250 is insignificant. However, we choose number of epoch 250 as best because of the uncertainty in unseen data where number of epoch 100 might not be sufficient to reach the convergence. \textbf{Therefore, we select number of epoch of $250$ as the best number of epoch for the Logistic Regression model.}
+\subsection{Momentum}\label{SS:lr-mom}
+Momentum is a critical concept in optimization algorithms that enhances the convergence of machine learning models. By introducing a notion of momentum, the optimization process gains the ability to overcome local minima and accelerate convergence towards optimal solutions. In the context of a Logistic Regression (LR) model, momentum affects the parameter updates during training. The equation $v = \mu v - \lambda \nabla L(w)$ showcases how the gradient descent direction is influenced by the accumulated momentum term ($v$) and the learning rate ($\lambda$). The updated weight parameters ($w = w + v$) then reflect the combined effect of both momentum and learning rate, effectively steering the model towards better convergence paths.
+\par
+The momentum values are varied while keeping the learning rate same as $10^{-1}$ which is the best value of learning rate and keeping the number of epoch same as $250$ which is the best value of epoch. It can be observed on Figure \ref{F:LR_effect_mom_acc} and Figure \ref{F:LR_effect_mom_loss} that the momentum value of $0.9$ helped to achieve the convergence on accuracy earlier than the momentum value of 0. However, the higher momentum value has a slightly lower accuracy than the lower momentum value of 0. Similarly, the loss corresponding to higher momentum value of $0.9$ is slightly higher than the loss corresponding to lower momentum value of 0. In summary, it is evident that keeping a high momentum value increases the speed of the training process but there will be a trade off with the accuracy. For this example, since the number of epoch is kept as 250 and there is no problem of slow convergence, we give more weight to the accuracy over speed. \textbf{Therefore, we select momentum value of 0 as the best value of momentum for the Logistic Regression model.} 
+\par
+The best hyper-parameters that are selected for the LR model is shown in Table \ref{T:lrlc}.
+\subsection{Initial Weights}\label{SS:lr-w0}
+Choosing initial weights properly is crucial as it significantly affects the optimization process and the final performance of a machine learning model. Poor initial weights can lead to slow convergence, getting stuck in local minima, or even divergence. Well-chosen initial weights provide the model with a favorable starting point, enabling faster convergence and better chances of finding globally optimal solutions. Appropriate initialization strategies help enhance training stability, prevent vanishing or exploding gradients, and improve the overall efficiency of the learning process.
+\par
+Random initialization assigns different starting points to each weight, which breaks symmetry and introduces diversity in the learning process. This diversification aids in capturing distinct features and patterns in the data. Moreover, random initialization prevents the model from converging to the same values, which enhances the model's capacity to learn complex relationships and generalize better to new data. Overall, random initialization promotes effective training by introducing variety and reducing the risk of symmetrical weight updates. 
+\par
+In this example, since there were only 2 input features, we could have initialized the weights manually by plotting the data in 2D plane. One of such manually selected weight could be $[w_0 = 0, w_1 = 1, w_2 = 0]$ since the decision boundary equation would be $x_1 = 0$ for the given training example. However, to keep the model generalized that works on any type of training example (in case we decide to train the model on different set of training data), we select the initial weights by random initialization as described above in this section.
 \section{Linear Classifier}\label{S:LC}
+\subsection{Iris Dataset and Logistic Regression on Multi Class Setting}
+Studying the application of Softmax regression (Multinomial Logistic Regression) on the Iris dataset involves understanding how to extend logistic regression to handle multi-class classification. The Iris dataset contains samples from three species of iris flowers: Setosa, Versicolor, and Virginica. Each sample has four features: sepal length, sepal width, petal length, and petal width. The goal is to classify the iris flowers into their respective species based on these features.
+\par
+Logistic regression can be extended to handle multi-class classification using techniques like One-vs-Rest (OvR).  In multiclass classification problems, the goal is to categorize instances into one of multiple classes. However, many traditional binary classification algorithms are designed to classify instances into two classes. The OvR strategy provides an elegant solution to extend these binary classifiers to handle multiclass scenarios.
+\par
+The OvR strategy involves breaking down a multiclass classification problem into multiple binary classification sub-problems. For each class in the original problem, a separate binary classifier is trained to distinguish instances of that class from instances of all the other classes combined. This approach effectively transforms the original multiclass problem into a set of binary classification tasks. During training, the instances of the class for which the classifier is being trained are treated as positive examples, while instances from all other classes are considered as negatives. Once all the binary classifiers are trained, classification of a new instance involves running it through each binary classifier. Each classifier produces a score or a probability indicating the likelihood that the instance belongs to its associated class. The class associated with the classifier that produces the highest score is then predicted as the final output class for the instance.
 \subsection{Learning Rate}\label{SS:lc-rate}
 The importance of learning rate in the ML model is discussed in Section \ref{SS:lr-rate}. The impact of varying learning rates on accuracy and loss was explored for the Linear Classifier (LC) model. The outcomes of these experiments can be summarized as follows:
 \begin{description}
@@ -175,71 +129,123 @@ The importance of learning rate in the ML model is discussed in Section \ref{SS:
 \end{description}
 \par
 In summary, the learning rate of $10^{-2}$ is optimal for this LC model as it reaches to convergence in less number of epochs without having significant impact on the accuracy and loss of the LC model. \textbf{Therefore, we select learning rate of $10^{-2}$ as the best learning rate for the Linear Classifier model.}
+\subsection{Number of Epoch}\label{SS:lc-ep}
+The importance of number of epoch in the ML model is discussed in Section \ref{SS:lr-ep}. The impact of varying number of epoch on accuracy and loss was explored for the Linear Classifier (LC) model. The number of epoch are varied while keeping the learning rate same as $10^{-2}$ which is the best value of learning rate. It can be observed on Figure \ref{F:LC_effect_ep_acc} and Figure \ref{F:LC_effect_ep_loss} that the number of epoch 500 is optimal as it reaches convergence early and it has slightly better accuracy than the number of epoch 500. Nevertheless, the difference in accuracy and loss in both training and validation data set between epoch 250 and epoch 500 is insignificant. However, we choose number of epoch 500 as best because of the uncertainty in unseen data where number of epoch 250 might not be sufficient to reach the convergence. \textbf{Therefore, we select number of epoch of $500$ as the best number of epoch for the Linear Classifier model.}
+\subsection{Momentum}\label{SS:lc-mom}
+The momentum values are varied while keeping the learning rate same as $10^{-2}$ which is the best value of learning rate and keeping the number of epoch same as $500$ which is the best value of epoch. It can be observed on Figure \ref{F:LC_effect_mom_acc} and Figure \ref{F:LC_effect_mom_loss} that the momentum value of $0.9$ helped to achieve the convergence on accuracy earlier than the momentum value of 0. It can be seen that, the higher momentum value has a slightly higher accuracy than the lower momentum value of 0. In terms of the loss, there is no difference in the loss between the momentum value of $0.9$ and corresponding to lower momentum value of 0. In summary, it is evident that keeping a high momentum value increases the speed of the training process along with the accuracy. \textbf{Therefore, we select momentum value of 0.9 as the best value of momentum for the Linear Classifier model.}
+\par
+The best hyper-parameters that are selected for the LC model is shown in Table \ref{T:lrlc}.
+\subsection{Initial Weights}\label{SS:lc-w0}
+The importance of choosing a proper initial weight is discussed in \ref{SS:lc-w0}. In this example, since there are 4 input features, we cannot initialize the weights manually by plotting the data in 2D plane. Since we are unable to visualize the decision boundary, therefore the only possibility to choose the initial weights is by means of random initialization. That's why we select the initial weights by random initialization.
 
-\begin{figure}[h!]
+\begin{table}
+	\begin{center}
+		\begin{tabular}{c c c c}
+			\hline
+			Model Name & Best Learning Rate & Best Number of Epoch & Best Momentum \\ \hline
+			Logistic Regression & $0.1$ & $250$ & $0$ \\ \hline
+			Linear Classifier & $0.01$ & $500$ & $0.9$ \\ \hline
+		\end{tabular}
+		\caption{Best hyper-parameters selected for the LR and LC model}\label{T:lrlc}
+	\end{center}
+\end{table}
+% Figures
+\begin{figure}[p]
+	\centering
+	\includegraphics[width=\textwidth]{LR_effect_lr_train_acc}
+	\caption{Effect of learning rate on training accuracy of LR model}
+	\label{F:LR_effect_lr_train_acc}
+\end{figure}
+\begin{figure}[p]
+	\centering
+	\includegraphics[width=\textwidth]{LR_effect_lr_train_loss}
+	\caption{Effect of learning rate on training loss of LR model}
+	\label{F:LR_effect_lr_train_loss}
+\end{figure}
+\begin{figure}[p]
+	\centering
+	\includegraphics[width=\textwidth]{LR_effect_lr_val_acc}
+	\caption{Effect of learning rate on validation accuracy of LR model}
+	\label{F:LR_effect_lr_val_acc}
+\end{figure}
+\begin{figure}[p]
+	\centering
+	\includegraphics[width=\textwidth]{LR_effect_lr_val_loss}
+	\caption{Effect of learning rate on validation loss of LR model}
+	\label{F:LR_effect_lr_val_loss}
+\end{figure}
+\begin{figure}[p]
+	\centering
+	\includegraphics[width=\textwidth]{LR_effect_ep_acc}
+	\caption{Effect of number of epoch on  accuracy of LR model}
+	\label{F:LR_effect_ep_acc}
+\end{figure}
+\begin{figure}[p]
+	\centering
+	\includegraphics[width=\textwidth]{LR_effect_ep_loss}
+	\caption{Effect of number of epoch on loss of LR model}
+	\label{F:LR_effect_ep_loss}
+\end{figure}
+\begin{figure}[p]
+	\centering
+	\includegraphics[width=\textwidth]{LR_effect_mom_acc}
+	\caption{Effect of momentum on  accuracy of LR model}
+	\label{F:LR_effect_mom_acc}
+\end{figure}
+\begin{figure}[p]
+	\centering
+	\includegraphics[width=\textwidth]{LR_effect_mom_loss}
+	\caption{Effect of momentum on loss of LR model}
+	\label{F:LR_effect_mom_loss}
+\end{figure}
+\begin{figure}[p]
 	\centering
 	\includegraphics[width=\textwidth]{LC_effect_lr_train_acc}
 	\caption{Effect of learning rate on training accuracy of LC model}
 	\label{F:LC_effect_lr_train_acc}
 \end{figure}
-\begin{figure}[h!]
+\begin{figure}[p]
 	\centering
 	\includegraphics[width=\textwidth]{LC_effect_lr_train_loss}
 	\caption{Effect of learning rate on training loss of LC model}
 	\label{F:LC_effect_lr_train_loss}
 \end{figure}
-\begin{figure}[h!]
+\begin{figure}[p]
 	\centering
 	\includegraphics[width=\textwidth]{LC_effect_lr_val_acc}
 	\caption{Effect of learning rate on validation accuracy of LC model}
 	\label{F:LC_effect_lr_val_acc}
 \end{figure}
-\begin{figure}[h!]
+\begin{figure}[p]
 	\centering
 	\includegraphics[width=\textwidth]{LC_effect_lr_val_loss}
 	\caption{Effect of learning rate on validation loss of LC model}
 	\label{F:LC_effect_lr_val_loss}
 \end{figure}
-
-\subsection{Number of Epoch}\label{SS:lc-ep}
-The importance of number of epoch in the ML model is discussed in Section \ref{SS:lr-ep}. The impact of varying number of epoch on accuracy and loss was explored for the Linear Classifier (LC) model. The number of epoch are varied while keeping the learning rate same as $10^{-2}$ which is the best value of learning rate. It can be observed on Figure \ref{F:LC_effect_ep_acc} and Figure \ref{F:LC_effect_ep_loss} that the number of epoch 500 is optimal as it reaches convergence early and it has slightly better accuracy than the number of epoch 500. Nevertheless, the difference in accuracy and loss in both training and validation data set between epoch 250 and epoch 500 is insignificant. However, we choose number of epoch 500 as best because of the uncertainty in unseen data where number of epoch 250 might not be sufficient to reach the convergence. \textbf{Therefore, we select number of epoch of $500$ as the best number of epoch for the Linear Classifier model.}
-
-\begin{figure}[h!]
+\begin{figure}[p]
 	\centering
 	\includegraphics[width=\textwidth]{LC_effect_ep_acc}
 	\caption{Effect of number of epoch on  accuracy of LC model}
 	\label{F:LC_effect_ep_acc}
 \end{figure}
-\begin{figure}[h!]
+\begin{figure}[p]
 	\centering
 	\includegraphics[width=\textwidth]{LC_effect_ep_loss}
 	\caption{Effect of number of epoch on loss of LC model}
 	\label{F:LC_effect_ep_loss}
 \end{figure}
-
-\subsection{Momentum}\label{SS:lc-mom}
-The momentum values are varied while keeping the learning rate same as $10^{-2}$ which is the best value of learning rate and keeping the number of epoch same as $500$ which is the best value of epoch. It can be observed on Figure \ref{F:LC_effect_mom_acc} and Figure \ref{F:LC_effect_mom_loss} that the momentum value of $0.9$ helped to achieve the convergence on accuracy earlier than the momentum value of 0. It can be seen that, the higher momentum value has a slightly higher accuracy than the lower momentum value of 0. In terms of the loss, there is no difference in the loss between the momentum value of $0.9$ and corresponding to lower momentum value of 0. In summary, it is evident that keeping a high momentum value increases the speed of the training process along with the accuracy. \textbf{Therefore, we select momentum value of 0.9 as the best value of momentum for the Linear Classifier model.} 
-
-\begin{figure}[h!]
+\begin{figure}[p]
 	\centering
 	\includegraphics[width=\textwidth]{LC_effect_mom_acc}
 	\caption{Effect of momentum on  accuracy of LC model}
 	\label{F:LC_effect_mom_acc}
 \end{figure}
-\begin{figure}[h!]
+\begin{figure}[p]
 	\centering
 	\includegraphics[width=\textwidth]{LC_effect_mom_loss}
 	\caption{Effect of momentum on loss of LC model}
 	\label{F:LC_effect_mom_loss}
 \end{figure}
-
-\subsection{Initial Weights}\label{SS:lc-w0}
-The importance of choosing a proper initial weight is discussed in \ref{SS:lc-w0}. In this example, since there are 4 input features, we cannot initialize the weights manually by plotting the data in 2D plane. Since we are unable to visualize the decision boundary, therefore the only possibility to choose the initial weights is by means of random initialization. That's why we select the initial weights by random initialization.
-
-\subsection{Iris Dataset and Logistic Regression on Multi Class Setting}
-Studying the application of Softmax regression (Multinomial Logistic Regression) on the Iris dataset involves understanding how to extend logistic regression to handle multi-class classification. The Iris dataset contains samples from three species of iris flowers: Setosa, Versicolor, and Virginica. Each sample has four features: sepal length, sepal width, petal length, and petal width. The goal is to classify the iris flowers into their respective species based on these features.
-\par
-Logistic regression can be extended to handle multi-class classification using techniques like One-vs-Rest (OvR). In this approach, we train one binary logistic regression classifier for each class. For each classifier, we consider one class as the positive class and the rest of the classes as the negative class. During prediction, we calculate the probability for each class using its corresponding classifier and choose the class with the highest probability as the predicted class.
 
 \printbibliography
 \end{document}

@@ -1,23 +1,23 @@
 from dataclasses import dataclass
 
-# Don't generally modify the args here, 
+# Don't generally modify the args here,
 # Use the train.py or train_with_visualization.py CLI options instead
 
 @dataclass
 class TrainingArguments:
     log_dir: str = './checkpoints/'    # Directory where the models will be stored
-    dataset: str = 'simple'            # Dataset to run the experiments on (simple/digits)
-    model: str = 'simple'              # Model to use (simple/digits)
-    num_epochs: int = 10               # Number of epochs for the optimization
-    learning_rate: float = 1e-4        # Learning rate for the optimization
+    dataset: str = 'digits'            # Dataset to run the experiments on (simple/digits)
+    model: str = 'digits'              # Model to use (simple/digits)
+    num_epochs: int = 100               # Number of epochs for the optimization
+    learning_rate: float = 1e-2       # Learning rate for the optimization
     batch_size: int = 64               # Batch size for the optimization
     seed: int = 1618                   # Seed used for random weight initialization
 
 @dataclass
 class TrainingWithVisualizationArguments:
     log_dir: str = './checkpoints/'    # Directory where the models will be stored
-    num_epochs: int = 10               # Number of epochs for the optimization
-    learning_rate: float = 1e-4        # Learning rate for the optimization
+    num_epochs: int = 100               # Number of epochs for the optimization
+    learning_rate: float = 1e-2        # Learning rate for the optimization
     batch_size: int = 64               # Batch size for the optimization
     seed: int = 1618                   # Seed used for random weight initialization
     grid_size: int = 128               # How many points should be evaluated on one axis? Total number of evaluation points is grid_size * grid_size

@@ -3,6 +3,9 @@ import torch.nn as nn
 import pytorch_lightning as pl
 
 class LitGenericClassifier(pl.LightningModule):
+    count1 = 0
+    count2 = 0
+    count3 = 0
     """
     General purpose classification model in PyTorch Lightning.
     The 2 models for the 2 respective datasets are inherited from this class.
@@ -59,6 +62,8 @@ class LitGenericClassifier(pl.LightningModule):
         acc = torch.sum(y_pos_index == y_true).item() / len(y_true)
         self.log('train_loss', loss.item())
         self.log('train_acc', acc)
+        print(f"train count: {self.count1}: accuracy: {acc}")
+        self.count1 += 1
         return loss
 
     def validation_step(self, batch, batch_idx=0):
@@ -95,6 +100,8 @@ class LitGenericClassifier(pl.LightningModule):
 
         self.log('valid_loss', loss)
         self.log('valid_acc', acc)
+        print(f"val count: {self.count2}")
+        self.count2 += 1
         return {
             'valid_loss': loss,
             'valid_acc': acc,
@@ -135,6 +142,8 @@ class LitGenericClassifier(pl.LightningModule):
 
         self.log('test_loss', loss)
         self.log('test_acc', acc)
+        print(f"test count: {self.count3}")
+        self.count3 += 1
         return {
             'test_loss': loss,
             'test_acc': loss,
@@ -190,6 +199,12 @@ class LitDigitsClassifier(LitGenericClassifier):
     def __init__(self, lr=0):
         super().__init__(lr=lr)
         self.model = nn.Sequential(
+            nn.Linear(64, 256), # d = 64
+            nn.ReLU(),
+            nn.Linear(256, 128), # d = 64
+            nn.ReLU(),
+            nn.Linear(128, 64), # d = 64
+            nn.ReLU(),
             nn.Linear(64, 32), # d = 64
             nn.ReLU(),
             nn.Linear(32, 16),
@@ -205,4 +220,5 @@ class LitDigitsClassifier(LitGenericClassifier):
         # choose an optimizer from `torch.optim.*`
         # use `self.lr` to set the learning rate
         # other parameters (e.g. momentum) may be hardcoded here
-        return torch.optim.SGD(self.parameters(), lr=self.lr, momentum=0.9)
+        l2_lambda = 0.01
+        return torch.optim.SGD(self.parameters(), lr=self.lr, momentum=0.9, weight_decay=l2_lambda)

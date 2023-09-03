@@ -20,7 +20,7 @@ def main():
     # Prepare the model
     litmodel = load_model(args.model)(args.learning_rate)
     litmodel_name = get_model_name(args)
-    
+
     datamodule = load_datamodule(args.dataset)(batch_size=args.batch_size)
 
     trainer = pl.Trainer(
@@ -32,7 +32,7 @@ def main():
             # Save the model checkpoint
             pl.callbacks.ModelCheckpoint(
                 dirpath=litmodel_name,
-                filename='{epoch:06d}-{train_loss:.3f}-{valid_acc:.3f}',
+                filename='{epoch:06d}-{train_acc:.3f}-{train_loss:.3f}-{valid_acc:.3f}-{valid_loss:.3f}',
                 save_top_k=1,
                 monitor='valid_acc',
                 mode='max',
@@ -43,6 +43,7 @@ def main():
     )
     trainer.fit(litmodel, datamodule)
     print(trainer.validate(litmodel, datamodule, ckpt_path='best'))
+    return litmodel
 
 if __name__ == '__main__':
-    main()
+    a = main()

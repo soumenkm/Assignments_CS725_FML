@@ -1,0 +1,164 @@
+% Preamble
+\documentclass[12pt, a4paper, twoside]{article}
+\usepackage[a4paper, left=0.75in, right=0.75in, top=1in, bottom=1in]{geometry}
+\usepackage{lipsum, verbatim, fancyhdr, lastpage, graphicx, hyperref, amsmath}
+\usepackage[backend=bibtex]{biblatex}
+\graphicspath{{./final_plots/}}
+\addbibresource{ref.bib}
+% Top Matter
+\hypersetup{
+	colorlinks   = true,
+	urlcolor     = blue, 
+	linkcolor    = blue, 
+	citecolor   = red
+}
+\pagestyle{fancy}
+\fancyhead[CO, CE]{CS 725: Foundations of Machine Learning (Autumn 2023) --- Homework 2}
+\fancyhead[LO, LE, RO, RE]{}
+\fancyfoot[CO, CE]{Page \thepage\ of \pageref{LastPage}}
+\fancyfoot[LO, LE, RO, RE]{}
+
+\title{\vspace{-0.5in}\textbf{CS 725: Foundations of Machine Learning \\
+Homework 2}}
+\author{Soumen Kumar Mondal\\
+23m2157@iitb.ac.in \and
+Naay Balodia\\
+23m2166@iitb.ac.in}
+\date{September  3, 2023}
+
+% Main Matter
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+\begin{abstract}
+In this assignment, we will implement Feed Forward Neural Network model on a toy datasets for 4 class simple classification and 10 class digits classification. Our key goal in this assignment is to correctly implement these models and analyze the results we obtained.
+\end{abstract}
+\section{Classification on Simple Dataset}\label{S:simple}
+\subsection{Learning Rate}\label{SS:simple-lr}
+The learning rate is a crucial hyper-parameter in machine learning algorithms, especially in gradient-based optimization methods like gradient descent. It determines the step size at which the algorithm updates the model's parameters during training. A higher learning rate can lead to faster convergence, but it might also cause overshooting and divergence. Conversely, a lower learning rate can lead to slower convergence, potentially getting stuck in local minima. Finding the right balance is essential for achieving optimal training performance and avoiding convergence issues. Experimenting with different learning rates helps identify the optimal rate that maximizes the model's accuracy and minimizes its loss during training and validation.
+\par
+The impact of varying learning rates on accuracy and loss was explored for the simple classification model. The outcomes of these experiments can be summarized as follows:
+\begin{description}
+\item[Accuracy:] Analyzing Figure \ref{F:simple_lr_acc} reveals that the FFNN model achieves its highest accuracy when the learning rate is set to $0.125$. Since the experiment is conducted with two choice of epoch, it can be seen that the trend of learning rate is similar for both the choice of number of epoch. Therefore, we will select the learning rate as $0.125$ as it will require less number of epochs for convergence.
+\item[Loss:] From Figure \ref{F:simple_lr_loss}, it is evident that the loss is minimum and achieves convergence when the learning rate is set to $0.125$. The trend of loss is also similar in both choice of epochs. Hence, the learning rate of $0.125$ can be adopted for simple classification model.
+\end{description}
+\par
+In summary, the learning rate of $0.125$ is optimal for this simple classification model as it reaches to convergence in less number of epochs without having significant impact on the accuracy and loss of the FFNN model. \textbf{Therefore, we select learning rate of $0.125$ as the best learning rate for the simple classification FFNN model.}
+\subsection{Number of Epoch}\label{SS:simple-ep}
+The number of epochs in machine learning signifies the count of times the entire data set is iterated through during training. The choice of the number of epochs plays a pivotal role in model performance. Too few epochs may lead to under-fitting, where the model hasn't learned enough from the data, while too many epochs might cause over-fitting, where the model captures noise in the training data, failing to generalize well to new data. Striking the right balance by monitoring validation performance helps achieve optimal model training and prevent over-fitting or premature convergence.
+\par
+The number of epoch are varied while keeping the learning rate same as $0.125$ which is the best value of learning rate. It can be observed on Figure \ref{F:simple_ep_acc} and Figure \ref{F:simple_ep_loss} that the number of epoch 100 is optimal as it reaches convergence early. Nevertheless, the difference in accuracy and loss in both training and validation data set between epoch 100 and epoch 250 is insignificant. \textbf{Therefore, we select number of epoch of $100$ as the best number of epoch for the simple classification FFNN model.}
+\par
+The FFNN hyper-parameters that are selected for the simple classification model is shown in Table \ref{T:hyper}. Moreover, the FFNN architecture for the simple classification is shown in Table \ref{T:simple}.
+\begin{table}[ht]
+	\begin{center}
+		\begin{tabular}{l l}
+			\hline
+			Layers: & input layer $\longrightarrow$ hidden layer 1 $\longrightarrow$ hidden layer 2 $\longrightarrow$ output layer \\ \hline
+			Neurons (or Units): & 2 features $\longrightarrow$ 32 neurons $\longrightarrow$ 16 neurons $\longrightarrow$ 4 classes \\ \hline
+			Activation Function: & ReLU in all layers\\ \hline
+			Optimizer: & Stochastic Gradient Descent with momentum of 0.9 \\ \hline
+		\end{tabular}
+		\caption{FFNN hyper-parameters selected for the simple classification  model}\label{T:simple}
+	\end{center}
+\end{table}
+\section{Classification on Digits Dataset}\label{S:digits}
+\subsection{Learning Rate}\label{SS:digits-lr}
+The importance of learning rate in the ML model is discussed in Section \ref{SS:simple-lr}. The impact of varying learning rates on accuracy and loss was explored for the digits classification model. The outcomes of these experiments can be summarized as follows:
+\begin{description}
+	\item[Accuracy:] Analyzing Figure \ref{F:digits_lr_acc} reveals that the Linear Classifier (LC) model achieves its highest accuracy when the learning rate is set to $0.025$. The number of epoch has insignificant effect on learning rate. As expected, when the learning rate is too small, the accuracy will drop at lower number of epochs which is evident in the same plot. 
+	\item[Loss:] From Figure \ref{F:digits_lr_loss}, it is evident that the loss is minimum and achieves convergence in lowest number of epochs when the learning rate is set to $0.025$. As expected, a lower learning rate will require more number of epochs to achieve minimum loss. The difference between the losses in the training dataset is insignificant. 
+\end{description}
+\par
+In summary, the learning rate of $0.025$ is optimal for this digits classification FFNN model as it reaches to convergence in less number of epochs without having significant impact on the accuracy and loss of the model. \textbf{Therefore, we select learning rate of $0.025$ as the best learning rate for the digits classification model.}
+\subsection{Number of Epoch}\label{SS:digits-ep}
+The importance of number of epoch in the ML model is discussed in Section \ref{SS:simple-ep}. The impact of varying number of epoch on accuracy and loss was explored for the digits classification model. The number of epoch are varied while keeping the learning rate same as $0.125$ and $0.025$. It can be observed on Figure \ref{F:digits_ep_acc} and Figure \ref{F:digits_ep_loss} that the number of epoch 250 is optimal as it reaches convergence early and it has slightly better accuracy than the number of epoch 100. Nevertheless, the difference in accuracy and loss in both training and validation data set between epoch 250 and epoch 100 is insignificant. However, we choose number of epoch 250 as best because of the uncertainty in unseen data where number of epoch 100 might not be sufficient to reach the convergence. \textbf{Therefore, we select number of epoch of $250$ as the best number of epoch for digits classification FFNN model.}
+\par
+The best hyper-parameters that are selected for the digits classification FFNN model is shown in Table \ref{T:hyper}. Moreover, the FFNN architecture for the digits classification is shown in Table \ref{T:digits}.
+\begin{table}[ht]
+	\begin{center}
+		\begin{tabular}{l l}
+			\hline
+			Layers: & input $\longrightarrow$ hidden 1 $\longrightarrow$ hidden 2 $\longrightarrow$ hidden 3 $\longrightarrow$ output \\ \hline
+			Neurons (or Units): & 64 features $\longrightarrow$ 64 unit $\longrightarrow$ 32 unit $\longrightarrow$ 16 unit $\longrightarrow$ 10 classes \\ \hline
+			Activation Function: & ReLU in all layers\\ \hline
+			Optimizer: & Stochastic Gradient Descent with momentum of 0.9 \\ \hline
+		\end{tabular}
+		\caption{FFNN hyper-parameters selected for the digits classification  model}\label{T:digits}
+	\end{center}
+\end{table}
+\section{General Points}
+\subsection{Best Epoch and Learning Rate}
+The FFNN hyper-parameters that are selected for the simple classification model and digits classification model is shown in Table \ref{T:hyper}.
+\begin{table}[ht]
+	\begin{center}
+		\begin{tabular}{c c c}
+			\hline
+			Model Name & Best Learning Rate & Best Number of Epoch \\ \hline
+			Simple Classification& $0.125$ & $100$ \\ \hline
+			Digits Classification & $0.025$ & $250$ \\ \hline
+		\end{tabular}
+		\caption{Best hyper-parameters selected for the simple and digits classification  model}\label{T:hyper}
+	\end{center}
+\end{table}
+\section{Data Pre-processioning}
+For both simple and digits dataset, no preprocessing is performed. \textbf{Hence it is "Not Done". }
+\section{Prevention of Overfitting}
+Preventing overfitting in a FFNN is a crucial aspect of building robust machine learning models. One effective technique for addressing overfitting in FFNNs is L2 regularization, also known as weight decay. L2 regularization adds a penalty term to the loss function, discouraging the model from assigning excessively large weights to specific features during training. By doing so, L2 regularization encourages the model to use all features more evenly and reduces the risk of fitting noise or outliers in the training data. This regularization technique helps in achieving a better balance between model complexity and generalization performance, leading to improved model performance on unseen data. By tuning the strength of the L2 regularization term, we can strike the right balance between fitting the training data well and avoiding overfitting, resulting in more reliable and robust FFNN models for various machine learning tasks.\cite{ang_ml, ddl_book}
+\par
+The L2 regularization equation is given in the following equation below:
+\begin{equation}
+	\min_{w, b} \left[ L(w, b) + \frac{\lambda}{2} \cdot \| \mathbf{w} \|^2 \right] \text{ for }\lambda > 0
+\end{equation}
+For our FFNN model, we have tuned the hyperparameter $\lambda$ as 0.0015. 
+% Figures
+\begin{figure}[p]
+	\centering
+	\includegraphics[width=\textwidth]{simple_lr_acc}
+	\caption{Effect of learning rate on accuracy of simple classification model}
+	\label{F:simple_lr_acc}
+\end{figure}
+\begin{figure}[p]
+	\centering
+	\includegraphics[width=\textwidth]{simple_lr_loss}
+	\caption{Effect of learning rate on loss of simple classification model}
+	\label{F:simple_lr_loss}
+\end{figure}
+\begin{figure}[p]
+	\centering
+	\includegraphics[width=\textwidth]{simple_ep_acc}
+	\caption{Effect of epoch on accuracy of simple classification model}
+	\label{F:simple_ep_acc}
+\end{figure}
+\begin{figure}[p]
+	\centering
+	\includegraphics[width=\textwidth]{simple_ep_loss}
+	\caption{Effect of epoch on loss of simple classification model}
+	\label{F:simple_ep_loss}
+\end{figure}
+\begin{figure}[p]
+	\centering
+	\includegraphics[width=\textwidth]{digits_lr_acc}
+	\caption{Effect of learning rate on accuracy of digits classification model}
+	\label{F:digits_lr_acc}
+\end{figure}
+\begin{figure}[p]
+	\centering
+	\includegraphics[width=\textwidth]{digits_lr_loss}
+	\caption{Effect of learning rate on loss of digits classification model}
+	\label{F:digits_lr_loss}
+\end{figure}
+\begin{figure}[p]
+	\centering
+	\includegraphics[width=\textwidth]{digits_ep_acc}
+	\caption{Effect of epoch on accuracy of digits classification model}
+	\label{F:digits_ep_acc}
+\end{figure}
+\begin{figure}[p]
+	\centering
+	\includegraphics[width=\textwidth]{digits_ep_loss}
+	\caption{Effect of epoch on loss of digits classification model}
+	\label{F:digits_ep_loss}
+\end{figure}
+\printbibliography
+\end{document}

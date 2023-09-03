@@ -68,3 +68,8 @@ model = NeuralNetwork()
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 
+#%%
+import numpy as np
+x1 = np.load("/Users/soumen/Desktop/IITB/ML/homework2/data/digits/train_x.npy")
+x2 = np.load("/Users/soumen/Desktop/IITB/ML/homework2/data/simple/train_x.npy")
+

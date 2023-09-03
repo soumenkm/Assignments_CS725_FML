@@ -6,17 +6,17 @@ from dataclasses import dataclass
 @dataclass
 class TrainingArguments:
     log_dir: str = './checkpoints/'    # Directory where the models will be stored
-    dataset: str = 'digits'            # Dataset to run the experiments on (simple/digits)
-    model: str = 'digits'              # Model to use (simple/digits)
-    num_epochs: int = 100               # Number of epochs for the optimization
-    learning_rate: float = 1e-2       # Learning rate for the optimization
+    dataset: str = 'simple'            # Dataset to run the experiments on (simple/digits)
+    model: str = 'simple'              # Model to use (simple/digits)
+    num_epochs: int = 100             # Number of epochs for the optimization
+    learning_rate: float = 0.125      # Learning rate for the optimization
     batch_size: int = 64               # Batch size for the optimization
     seed: int = 1618                   # Seed used for random weight initialization
 
 @dataclass
 class TrainingWithVisualizationArguments:
     log_dir: str = './checkpoints/'    # Directory where the models will be stored
-    num_epochs: int = 100               # Number of epochs for the optimization
+    num_epochs: int = 100              # Number of epochs for the optimization
     learning_rate: float = 1e-2        # Learning rate for the optimization
     batch_size: int = 64               # Batch size for the optimization
     seed: int = 1618                   # Seed used for random weight initialization

@@ -10,3 +10,8 @@ homework2/*
 !homework2/report.pdf
 !homework2/report.tex
 !homework2/ref.bib
+homework3/*
+!homework3/*.py
+!homework3/report.pdf
+!homework3/report.tex
+!homework3/ref.bib

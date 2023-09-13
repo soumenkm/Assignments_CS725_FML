@@ -94,7 +94,7 @@ class Multinomial:
         """x : int [0, 1, ... , k-1]
         pk_vec : list of p of size [k,] where k is number of class"""
 
-        pmf_x = pk_vec[int(x)] ** x
+        pmf_x = pk_vec[int(x)] # pk_vec[int(x)] ** x
         return pmf_x
 
 class NaiveBayes:

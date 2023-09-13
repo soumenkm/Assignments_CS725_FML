@@ -17,6 +17,7 @@
 \fancyhead[LO, LE, RO, RE]{}
 \fancyfoot[CO, CE]{Page \thepage\ of \pageref{LastPage}}
 \fancyfoot[LO, LE, RO, RE]{}
+% \bibliographystyle{plain}
 
 \title{\vspace{-0.5in}\textbf{CS 725: Foundations of Machine Learning \\
 Homework 3}}
@@ -33,7 +34,7 @@ Naay Balodia\\
 \begin{abstract}
 In this assignment, we will implement Naive Bayes model on a toy datasets for 3 class classification task. Our key goal in this assignment is to correctly implement these models and analyze the results we obtained.
 \end{abstract}
-\section{Naive Bayes Classifier}\label{S:nb}
+\section{Naive Bayes Classifier}
 In the classification problem, the features ($\bar{x}$) will be given and we are interested to find out what is the probability that a label ($\hat{y}$) will be correctly classified? More generally, given the features, what is the most likely label?
 \par
 In this homework, it is given that $\bar{x} = [x_1, x_2, \ldots, x_{10}]^T$ that means there are 10 features in the dataset. The class label $y$ can be any one of the class between $[0, 1, 2]$. Probability of the label $y$ given the feature $\bar{x}$ is denoted as $P [y | \bar{x}]$. In this homework problem, since there are 3 classes, we will be interested to know the vector of posterior probabilities of labels for all the classes as:
@@ -60,7 +61,143 @@ In general, the features are not independent of each other but given a label, it
 	P [y=k | \bar{x}] &= \left(  \prod_{i = 1}^{10} P[x_i | y = k] \right) \cdot P[y=k] \\
 	\hat{y} &= \underset{k = 0, 1, 2}{\text{argmax}} \left(  \prod_{i = 1}^{10} P[x_i | y = k] \right) \cdot P[y=k]
 \end{align}  
-
+Since the likelihood values are very small, we take log likelihood to avoid numerical underflow. Therefore, the predicted label is given by the following equation\cite{ddl_book}:
+\begin{equation}\label{E:main}
+	\hat{y} = \underset{k = 0, 1, 2}{\text{argmax}} \left[ \sum_{i = 1}^{10} \left( \log (P[x_i | y = k]) \right) + \log (P[y=k]) \right]
+\end{equation}
+\section{Maximum Likelihood Estimate}
+In the Equation \ref{E:main}, we have to find the values of $P[x_i | y = k]$ which can be found from the conditional density or mass of the probability distribution corresponding to each of the features. Since the probability distribution of each of the features are known prior, the training set will be used to estimate the parameters of the PMF or PDF using the MLE principle.
+\par
+For each of the class label $y$, the dataset is filtered and the parameters are estimated corresponding to filtered dataset. This gives the parameters of PMF or PDF corresponding to a particular class label $y$. Once the parameters are estimated, based on an unknown feature $\bar{x}$, the class label is predicted from Equation \ref{E:main}. The prior probability is calculated by the frequency of observing a class label in the training dataset. The features and its PMF or PDF is shown in Table \ref{T:pdf}. The MLE estimated parameters are shown in Table \ref{T:mle}.
+\par
+{
+\renewcommand{\arraystretch}{2}
+\begin{table}[h]
+	\begin{center}
+		\begin{tabular}{c c c}
+			\hline
+			Features & Distribution & PMF or PDF $(p_X(x))$ \\ \hline
+			$X_1$, $X_2$& $\sim Normal(\mu, \sigma^2)$& $\frac{1}{\sqrt{2\pi\sigma^2}}\exp (\frac{-(x-\mu)^2}{2\sigma^2})$\\ \hline
+			$X_3$, $X_4$& $\sim Bernoulli(p)$& $p^x(1-p)^{1-x}$ \\ \hline
+			$X_5$, $X_6$& $\sim Laplace(\mu, b)$& $\frac{1}{2b}\exp (-\frac{|x-\mu|}{b})$ \\ \hline
+			$X_7$, $X_8$& $\sim Exponential(\lambda)$& $\lambda\exp(-\lambda x)$ \\ \hline
+			$X_9$, $X_{10}$& $\sim Multinomial([p_1, p_2, \dots , p_k])$& $p_{x-1} (x \epsilon [0, 1, 2, \cdots , k-1])$ \\ \hline
+		\end{tabular}
+		\caption{Features and its PMF or PDF}\label{T:pdf}
+	\end{center}
+\end{table}
+}
+{
+	\renewcommand{\arraystretch}{2}
+	\begin{table}[h]
+		\begin{center}
+			\begin{tabular}{c c c}
+				\hline
+				Features & Distribution & MLE estimated parameters \\ \hline
+				$X_1$, $X_2$& $\sim Normal(\mu, \sigma^2)$& $\hat{\mu} = \frac{\sum_{i = 0}^{N-1} x_i}{N}$, $\hat{\sigma^2} = \frac{\sum_{i = 0}^{N-1} (x_i-\hat{\mu})^2}{N}$\\ \hline
+				$X_3$, $X_4$& $\sim Bernoulli(p)$& $\hat{p} = \frac{\sum_{i = 0}^{N-1} x_i}{N}$ \\ \hline
+				$X_5$, $X_6$& $\sim Laplace(\mu, b)$& $\hat{\mu} = median(x_0, x_1, \cdots , x_{N-1})$, $\hat{b} = \frac{\sum_{i = 0}^{N-1} |x_i-\hat{\mu}|}{N}$ \\ \hline
+				$X_7$, $X_8$& $\sim Exponential(\lambda)$& $\hat{\lambda} = \frac{N}{\sum_{i = 0}^{N-1} x_i}$ \\ \hline
+				$X_9$, $X_{10}$& $\sim Multinomial([p_1, p_2, \dots , p_k])$& $\hat{p_j} = \frac{n_j(\bar{x})}{N}$ where $n_j(\bar{x})$ is the count of category j in $\bar{x}$\\ \hline
+			\end{tabular}
+			\caption{MLE estimated parameters for dataset $\bar{x} = [x_0, x_1, \cdots , x_{N-1}]$ where $N = length(\bar{x})$}\label{T:mle}
+		\end{center}
+	\end{table}
+}
+\section{Results of Naive Bayes Classifier}
+The MLE estimated parameters for all the features are summarized in Table \ref{T:normal} to Table \ref{T:mult}.
+The F1 score values are summarized in Table \ref{T:f1}.
+{
+	\renewcommand{\arraystretch}{2}
+	\begin{table}[p]
+		\begin{center}
+			\begin{tabular}{c c c}
+				\hline
+				Output class label $y$ & Distribution & MLE estimated parameters \\ \hline
+				$y = 0$& $\sim Normal(\mu, \sigma^2)$& $\hat{\mu}_{X_1} = 2.02$, $\hat{\sigma}_{X_1}^2 = 9.05$, $\hat{\mu}_{X_2} = 3.90$, $\hat{\sigma}_{X_2}^2 = 78.42$ \\ \hline
+				$y = 1$& $\sim Normal(\mu, \sigma^2)$& $\hat{\mu}_{X_1} = 0.02$, $\hat{\sigma}_{X_1}^2 = 25.16$, $\hat{\mu}_{X_2} = 0.85 $, $\hat{\sigma}_{X_2}^2 = 230.03$ \\ \hline
+				$y = 2$& $\sim Normal(\mu, \sigma^2)$& $\hat{\mu}_{X_1} = 8.02$, $\hat{\sigma}_{X_1}^2 = 35.66$, $\hat{\mu}_{X_2} = -0.02 $, $\hat{\sigma}_{X_2}^2 = 4.00$ \\ \hline
+			\end{tabular}
+			\caption{MLE estimated parameters for feature $X_1$ and $X_2$}\label{T:normal}
+		\end{center}
+	\end{table}
+}
+{
+	\renewcommand{\arraystretch}{2}
+	\begin{table}[p]
+		\begin{center}
+			\begin{tabular}{c c c}
+				\hline
+				Output class label $y$ & Distribution & MLE estimated parameters  \\ \hline
+				$y = 0$& $\sim Bernoulli(p)$& $\hat{p}_{X_3} = 0.20$, $\hat{p}_{X_4} = 0.10$ \\ \hline
+				$y = 1$& $\sim Bernoulli(p)$& $\hat{p}_{X_3} = 0.59$, $\hat{p}_{X_4} = 0.80$ \\ \hline
+				$y = 2$& $\sim Bernoulli(p)$& $\hat{p}_{X_3} = 0.90$, $\hat{p}_{X_4} = 0.19$ \\ \hline
+			\end{tabular}
+			\caption{MLE estimated parameters for feature $X_3$ and $X_4$}\label{T:ber}
+		\end{center}
+	\end{table}
+}
+{
+	\renewcommand{\arraystretch}{2}
+	\begin{table}[p]
+		\begin{center}
+			\begin{tabular}{c c c}
+				\hline
+				Output class label $y$ & Distribution & MLE estimated parameters  \\ \hline
+				$y = 0$& $\sim Laplace(\mu, b)$& $\hat{\mu}_{X_5} = 0.07$, $\hat{b}_{X_5} =1.98 $, $\hat{\mu}_{X_6} = 0.87 $, $\hat{b}_{X_6} = 5.97$ \\ \hline
+				$y = 1$& $\sim Laplace(\mu, b)$& $\hat{\mu}_{X_5} = 0.38$, $\hat{b}_{X_5} = 0.99 $, $\hat{\mu}_{X_6} = 0.35 $, $\hat{b}_{X_6} = 5.99$ \\ \hline
+				$y = 2$& $\sim Laplace(\mu, b)$& $\hat{\mu}_{X_5} = 0.79$, $\hat{b}_{X_5} = 3.00 $, $\hat{\mu}_{X_6} = 0.21 $, $\hat{b}_{X_6} = 3.06$ \\ \hline
+				
+			\end{tabular}
+			\caption{MLE estimated parameters for feature $X_5$ and $X_6$}\label{T:lap}
+		\end{center}
+	\end{table}
+}
+{
+	\renewcommand{\arraystretch}{2}
+	\begin{table}[p]
+		\begin{center}
+			\begin{tabular}{c c c}
+				\hline
+				Output class label $y$ & Distribution & MLE estimated parameters \\ \hline
+				$y = 0$&  $\sim Exponential(\lambda)$& $\hat{\lambda}_{X_7} = 1.97 $, $\hat{\lambda}_{X_8} =3.93 $ \\ \hline
+				$y = 1$&  $\sim Exponential(\lambda)$& $\hat{\lambda}_{X_7} =2.98 $, $\hat{\lambda}_{X_8} =7.98 $ \\ \hline
+				$y = 2$&  $\sim Exponential(\lambda)$& $\hat{\lambda}_{X_7} =8.94 $, $\hat{\lambda}_{X_8} =14.68 $ \\ \hline
+			\end{tabular}
+			\caption{MLE estimated parameters for feature $X_7$ and $X_8$}\label{T:lam}
+		\end{center}
+	\end{table}
+}
+{
+	\renewcommand{\arraystretch}{2}
+	\begin{table}[p]
+		\begin{center}
+			\begin{tabular}{c c p{7cm}}
+				\hline
+				Output class label $y$ & Distribution & MLE estimated parameters \\ \hline
+				$y = 0$&  $\sim Multinomial([p_1, p_2, \dots , p_k])$& $\hat{\bar{p}}_{X_9} = [0.2022, 0.2032, 0.2042, \newline 0.1967, 0.1937]$, \newline $\hat{\bar{p}}_{X_{10}} = [0.1213, 0.1236, 0.1257, \newline 0.1277, 0.127, 0.1271, 0.1241, 0.1235]$ \\ \hline
+				$y = 1$&  $\sim Multinomial([p_1, p_2, \dots , p_k])$& $\hat{\bar{p}}_{X_9} = [0.0977, 0.1984, 0.4047, \newline 0.1583, 0.1409]$, \newline $\hat{\bar{p}}_{X_{10}} = [0.1009, 0.0506, 0.0508, \newline 0.1998, 0.1524, 0.1487, 0.2003, 0.0965]$ \\ \hline
+				$y = 2$&  $\sim Multinomial([p_1, p_2, \dots , p_k])$& $\hat{\bar{p}}_{X_9} = [0.2052, 0.2997, 0.1029, \newline 0.3417, 0.0505]$, \newline $\hat{\bar{p}}_{X_{10}} = [0.1972, 0.0481, 0.0483, \newline 0.1054, 0.1552, 0.153, 0.098, 0.1948]$ \\ \hline
+			\end{tabular}
+			\caption{MLE estimated parameters for feature $X_9$ and $X_{10}$}\label{T:mult}
+		\end{center}
+	\end{table}
+}
+{
+	\renewcommand{\arraystretch}{2}
+	\begin{table}[p]
+		\begin{center}
+			\begin{tabular}{c c c}
+				\hline
+				Output class label $y$ & Training F1 score & Validation F1 score \\ \hline
+				$y = 0$ & $0.881$& $0.880$\\ \hline
+				$y = 1$ & $0.878$& $0.878$ \\ \hline
+				$y = 2$& $0.943$ &$0.946$ \\ \hline
+			\end{tabular}
+			\caption{F1 score for training and validation dataset}\label{T:f1}
+		\end{center}
+	\end{table}
+}
 
 \printbibliography
 \end{document}

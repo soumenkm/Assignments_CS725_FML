@@ -298,7 +298,7 @@ class NaiveBayes:
         guassian = self.guassian
         bernoulli = self.bernoulli
         laplace = self.laplace
-        exponential = self.laplace
+        exponential = self.exponential
         multinomial = self.multinomial
 
         """Start your code"""

@@ -72,7 +72,7 @@ For each of the class label $y$, the dataset is filtered and the parameters are 
 \par
 {
 \renewcommand{\arraystretch}{2}
-\begin{table}[h]
+\begin{table}[p]
 	\begin{center}
 		\begin{tabular}{c c c}
 			\hline
@@ -89,7 +89,7 @@ For each of the class label $y$, the dataset is filtered and the parameters are 
 }
 {
 	\renewcommand{\arraystretch}{2}
-	\begin{table}[h]
+	\begin{table}[p]
 		\begin{center}
 			\begin{tabular}{c c c}
 				\hline
@@ -107,6 +107,21 @@ For each of the class label $y$, the dataset is filtered and the parameters are 
 \section{Results of Naive Bayes Classifier}
 The MLE estimated parameters for all the features are summarized in Table \ref{T:normal} to Table \ref{T:mult}.
 The F1 score values are summarized in Table \ref{T:f1}.
+{
+	\renewcommand{\arraystretch}{2}
+	\begin{table}[p]
+		\begin{center}
+			\begin{tabular}{c c}
+				\hline
+				Output class label $y$ & Prior probability ($P[y = k]$) \\ \hline
+				$y = 0$ & $0.333$ \\ \hline
+				$y = 1$ & $0.333$  \\ \hline
+				$y = 2$& $0.333$ \\ \hline
+			\end{tabular}
+			\caption{Prior probability of the class labels}\label{T:prior}
+		\end{center}
+	\end{table}
+}
 {
 	\renewcommand{\arraystretch}{2}
 	\begin{table}[p]

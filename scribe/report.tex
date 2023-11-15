@@ -5,6 +5,8 @@
 \usepackage{scribe}
 \usepackage{listings}
 \usepackage{framed}
+\usepackage[backend=bibtex]{biblatex}
+\addbibresource{mybib.bib}
 
 \Scribe{Team ID - 24\footnotemark}
 \footnotetext[1]{Team members: 23m2154, 23m2156, 23m2157, 23m2158, 23m2162, 23d1596}
@@ -23,7 +25,7 @@
 	%#############################################################
 	%#############################################################
 	
-	\section*{Question 1: Linear Algebra}
+	\section*{Question 1: Linear Algebra \cite{q1}}
 	Suppose $x_k$ is the fraction of IIT Bombay students who prefer Foundations of Machine Learning (FML) over Advanced Machine Learning (AML) at year k. The remaining fraction $y_k = 1-x_k$ prefers AML. At year $k+1$, $\frac{1}{5}$ of those who prefer FML changed their mind (possibly after taking EE 768). Also at year $k+1$, $\frac{1}{10}$ of those who prefer AML change their mind (possibly because of the exams!). Create the matrix $A$ to give $[x_{k+1} \quad y_{k+1}]^T = [x_k \quad y_k]^TA$ and find the limit of $[1 \quad 0]A^T$ as $k \rightarrow \infty$.
 	
 	\begin{framed}
@@ -38,7 +40,7 @@
 		The eigenvector with $\lambda = 1$ is $[0.333 \quad 0.667]^T$. This is the steady state starting from $[1 \quad 0]^T$. $\frac{2}{3}$ of all students prefer AML!
 	\end{framed}
 	
-	\section*{Question 2: Linear Regression}
+	\section*{Question 2: Linear Regression \cite{q2}}
 	Suppose we are in the year of 2026. The LIBS instrument of India's Chandrayaan-4 rover has made the first-ever in-situ measurements on the search of water ice beneath the lunar surface near the south pole of Moon. The instrument has just sent back exciting data giving the concentration of water ice y at depth x beneath the surface of the south pole on Moon!
 
 	Your task, as one of the mission specialists (back on Earth), is to figure out what hypothesis best models the data, which is shown in Figure \ref{F:1}:
@@ -78,7 +80,7 @@
 		The reason one would want to choose randomly from across all datasets is because the data for training and for testing should come from the same sample distribution, even if they are disjoint datapoints. Alternatively, use cross-validation. With cross-validation, you could use all the data for training then determine the best $k$ by minimizing the error output by cross-validation. This would mean no need for a single separate test set.
 	\end{framed}
 
-	\section*{Question 3: Logistic Regression}
+	\section*{Question 3: Logistic Regression \cite{q3}}
 	For the binary logistic regression problem, the target values are encoded as $t^i \in \{0,+1\}$.
 	For a dataset $D_N = \{(x^{(i)}, t^{(i)})\}$ with $t^i \in \{0,+1\}$, the logistic regression is defined using the following steps:
 	\begin{align}
@@ -123,7 +125,7 @@
 		
 	\end{framed}
 	
-	\section*{Question 4: Optimization}
+	\section*{Question 4: Optimization \cite{q4}}
 	Assume that you are minimizing a cost function which can be written as:
 	\begin{equation}
 		J(w) = \frac{1}{N} \sum_{i-1}^{N} L(w, x_i, t_i)
@@ -156,7 +158,7 @@
 		SGD only requires processing of 1 training example, mSGD requires 100 batch examples and GD requires 1000000 training examples.
 	\end{framed}
 	
-	\section*{Question 5: Optimization}
+	\section*{Question 5: Optimization \cite{q4}}
 	
 	Let $n \geq 1$ be an integer and let $A \in \mathbb{R}^{n \times n}$ be a symmetric matrix (non necessarily positive definite) for which all of its eigenvalues are non-zero. Let $a \in \mathbb{R}^n$ be a given vector and we consider the function $f:\mathbb{R} \rightarrow \mathbb{R}$, defined as:
 	\begin{equation}
@@ -191,7 +193,7 @@
 
 	\end{framed}
 	
-	\section*{Question 6: Mixed - Optimization and Linear Algebra}
+	\section*{Question 6: Mixed - Optimization and Linear Algebra \cite{q4}}
 		Let $n \geq 1$ be an integer and let $A \in \mathbb{R}^{n \times n}$ be a symmetric matrix (non necessarily positive definite) for which all of its eigenvalues are non-zero. Let $a \in \mathbb{R}^n$ be a given vector and we consider the function $f:\mathbb{R} \rightarrow \mathbb{R}$, defined as:
 	\begin{equation}
 		f(x) = \frac{1}{2}(x-a)^TA^2(x-a)
@@ -227,7 +229,7 @@
 		
 	\end{framed}
 	
-	\section*{Question 7: Mixed - Optimization and Linear Algebra}
+	\section*{Question 7: Mixed - Optimization and Linear Algebra \cite{q4}}
 	Let $n \geq 1$ be an integer and let $A \in \mathbb{R}^{n \times n}$ be a symmetric matrix (non necessarily positive definite) for which all of its eigenvalues are non-zero. Let $a \in \mathbb{R}^n$ be a given vector and we consider the function $f:\mathbb{R} \rightarrow \mathbb{R}$, defined as:
 
 	\begin{equation}
@@ -245,7 +247,7 @@
 		b) If some of the eigenvalues of $A$ are zero, $Q = A^2$ will have also the corresponding eigenvalues 0. On the other hand, since $Q$ is symmetric, it is diagonalizable, so we can see it up to a change of coordinates as a diagonal matrix with the eigenvalues on the main diagonal. As we have seen in (a), the coordinates (in the new system of coordinates, if Q was not diagonal at the first place) corresponding to the zero eigenvalues are unaffected by the gradient algorithms. And the dimension of the problem can be reduced by the number of zero eigenvalues. While for positive definite $Q$, i.e. if $A$ does not have zero eigenvalues, the problem is full dimensional. This is a major difference between the two cases.
 	\end{framed}
 	
-	\section*{Question 8: Linear Algebra}
+	\section*{Question 8: Linear Algebra \cite{q1}}
 	If $A$ is $3 \times 3$ symmetric positive definite, then $Aq_i = \lambda_i q_i$ with positive eigenvalues and orthonormal eigenvectors $q_i$. Suppose $x = c_1q_1 + c_2q_2 + c_3q_3$.
 	
 	a) Compute $x^Tx$ and also $x^TAx$ in terms of the $c$ and $\lambda$.
@@ -269,7 +271,7 @@
 		b) We maximize $\frac{\sum_{i=1}^{3} c_i^2 \lambda_i}{\sum_{i=1}^{3} c_i^2}$ when $c_1 = c_2 = 0$ so $x = c_3q_3$ is a multiple of the eigenvector $q_3$ with the largest eigenvalue $\lambda_3$.
 	\end{framed}
 	
-	\section*{Question 9: Linear Regression}
+	\section*{Question 9: Mixed - Optimization and Linear Regression \cite{q3}}
 	a) Let $f$ be some function so that $f(\theta_0,\theta_1)$ outputs a number. For this problem, $f$ is some arbitrary/unknown smooth function (not necessarily the cost function of linear regression, so $f$ may have local optima). Suppose we use gradient descent to try to minimize $f(\theta_0,\theta_1)$ as a function of $\theta_0$ and $\theta_1$. Which of the following statements are true and which are false? Explain.
 	\begin{enumerate}
 		\item Even if the learning rate $\alpha$ is very large, every iteration of gradient descent will decrease the value of $f(\theta_0,\theta_1)$.
@@ -311,33 +313,49 @@
 		\end{enumerate} 
 	\end{framed}
 	
-	\section*{Question 10: Logistic Regression}
-	You are training a classification model with logistic regression. Which of the following statements are true and which are false? Explain.
+	\section*{Question 10: Logistic Regression \cite{q2}}
+	Assume that we trained a logistic regression model and our class probabilities can be found by
+	
+	\begin{equation}
+		z(x) = \sigma(w^Tx + b)
+	\end{equation}
+	
+	Where ($w_k, w_{k,0}$) are the parameters, and we classify using the rule
+	
+	\begin{equation}
+		y(x) = \mathbb{I} [z(x) > 0.5]
+	\end{equation}
+	
+	Show that this corresponds to a linear decision boundary in the input space. 
+	
+	General notes on input spaces:
 	\begin{enumerate}
-		\item Adding many new features to the model helps prevent overfitting on the training set.
-		\item Introducing regularization to the model always results in equal or better performance on examples not in the training set.
-		\item Introducing regularization to the model always results in equal or better performance on the training set.
-		\item Adding a new feature to the model always results in equal or better performance on the training set
-		\item Using a very large value regularization parameter cannot hurt the performance of your hypothesis; the only reason we do not set to be too large is to avoid numerical problems.
-		\item Because regularization causes cost function to no longer be convex, gradient descent may not always converge to the global minimum.
-		\item Using too large a value of regularization parameter can cause your hypothesis to underfit the data.
-		\item Because logistic regression outputs values $0 \leq y \leq 1$, its range of output values can only be "shrunk" slightly by regularization anyway, so regularization is generally not helpful for it.
+		\item Training examples are points
+		\item Hypotheses are half-spaces whose boundaries pass through origin
+		\item The boundary is the decision boundary
+		\item If training examples can be separated by linear decision rule, they are linearly separable
 	\end{enumerate}
 	
 	\begin{framed}
 		\textbf{Solution:}\\
+		What decision boundary looks like:
+		
 		\begin{enumerate}
-			\item (False) Adding many new features gives us more expressive models which are able to better fit our training set. If too many new features are added, this can lead to overfitting of the training set.
-			\item (False) If we introduce too much regularization, we can underfit the training set and this can lead to worse performance even for examples not in the training set.
-			\item (False) If we introduce too much regularization, we can underfit the training set and have worse performance on the training set.
-			\item (True) Adding many new features gives us more expressive models which are able to better fit our training set. If too many new features are added, this can lead to overfitting of the training set.
-			\item (False) Using a very large value of regularization parameter can lead to underfitting of the training set.
-			\item (False) Regularized logistic regression and regularized linear regression are both convex, and thus gradient descent will still converge to the global minimum.
-			\item (True) A large value of results in a large regularization parameter regularization penalty and thus a strong preference for simpler models which can underfit the data.
-			\item (False) No it is needed as it prevents overfitting
+			\item Predict $y=1$ if $z(x) > 0.5 \iff w_k^Tx + w_{k,0}x_0 > 0$
+			\item Predict $y=0$ if $z(x) \leq 0.5 \iff w_k^Tx + w_{k,0}x_0 \leq 0$
+			\item Decision boundary: $ w_k^Tx + w_{k,0}x_0 = 0$
 		\end{enumerate}
+		
+		\begin{align}
+			\frac{1}{1+e^{-(w_k^Tx + w_{k,0}x_0)}} &= 0.5 \\
+			1 &= 0.5\left(1+e^{-(w_k^Tx + w_{k,0}x_0)}\right) \\
+			1-0.5 &= 0.5\left(e^{-(w_k^Tx + w_{k,0}x_0)}\right) \\
+			1 &= e^{-(w_k^Tx + w_{k,0}x_0)} \\
+			\ln (1) &= \ln \left(e^{-(w_k^Tx + w_{k,0}x_0)}\right) \\
+			0 &= -(w_k^Tx + w_{k,0}x_0)
+		\end{align}
 	\end{framed}
+
+	\printbibliography
 	
-	
-	%%%%%%%%%%% end of doc
 \end{document}

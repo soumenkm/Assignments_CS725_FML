@@ -24,7 +24,7 @@
 	%#############################################################
 	
 	\section*{Question 1: Linear Algebra}
-	Suppose $x_k$ is the fraction of IIT Bombay students who prefer Foundations of Machine Learning (FML) to Advanced Machine Learning (AML) at year k. The remaining fraction $y_k = 1-x_k$ prefers AML. At year $k+1$, $\frac{1}{5}$ of those who prefer FML changed their mind (possibly after taking EE 768). Also at year $k+1$, $\frac{1}{10}$ of those who prefer AML change their mind (possibly because of the exams!). Create the matrix $A$ to give $[x_{k+1} \quad y_{k+1}]^T = [x_k \quad y_k]^TA$ and find the limit of $[1 \quad 0]A^T$ as $k \rightarrow \infty$.
+	Suppose $x_k$ is the fraction of IIT Bombay students who prefer Foundations of Machine Learning (FML) over Advanced Machine Learning (AML) at year k. The remaining fraction $y_k = 1-x_k$ prefers AML. At year $k+1$, $\frac{1}{5}$ of those who prefer FML changed their mind (possibly after taking EE 768). Also at year $k+1$, $\frac{1}{10}$ of those who prefer AML change their mind (possibly because of the exams!). Create the matrix $A$ to give $[x_{k+1} \quad y_{k+1}]^T = [x_k \quad y_k]^TA$ and find the limit of $[1 \quad 0]A^T$ as $k \rightarrow \infty$.
 	
 	\begin{framed}
 		\textbf{Solution:}
@@ -39,7 +39,7 @@
 	\end{framed}
 	
 	\section*{Question 2: Linear Regression}
-	The LIBS instrument of India's Chandrayaan-3 rover has made the first-ever in-situ measurements on the elemental composition of the lunar surface near the south pole of Moon. The instrument has just sent back exciting data giving the concentration of water ice y at depth x beneath the surface of the south pole on Moon!
+	Suppose we are in the year of 2026. The LIBS instrument of India's Chandrayaan-4 rover has made the first-ever in-situ measurements on the search of water ice beneath the lunar surface near the south pole of Moon. The instrument has just sent back exciting data giving the concentration of water ice y at depth x beneath the surface of the south pole on Moon!
 
 	Your task, as one of the mission specialists (back on Earth), is to figure out what hypothesis best models the data, which is shown in Figure \ref{F:1}:
 
@@ -79,15 +79,15 @@
 	\end{framed}
 
 	\section*{Question 3: Logistic Regression}
-	For the binary logistic regression problem, the target values are encoded as $t^i \in {0,+1}$.
-	For a dataset $D_N = {(x^{(i)}, t^{(i)})}$ with $t^i \in {0,+1}$, the logistic regression is defined using the following steps:
+	For the binary logistic regression problem, the target values are encoded as $t^i \in \{0,+1\}$.
+	For a dataset $D_N = \{(x^{(i)}, t^{(i)})\}$ with $t^i \in \{0,+1\}$, the logistic regression is defined using the following steps:
 	\begin{align}
 		z &= w^Tx + b \\
 		y &= \sigma(z) \\
 		L(y,t) &= -t\log(y) - (1-t) \log (1-y)
 	\end{align}
 	
-	Show that if $t^i \in {-1, +1}$ then the minimization problem takes the following form where $w$ and $b$ are the weights parameters:
+	Show that if $t^i \in \{-1, +1\}$ then the minimization problem takes the following form where $w$ and $b$ are the weights parameters:
 	\begin{equation}
 		min_{w,b} \sum_{i=1}^{N} \log (1+\exp({-t^i(w^Tx^{(i)} + b)}))
 	\end{equation}
@@ -109,7 +109,7 @@
 			\min_{w,b} \sum_{i=1}^{N} t^{(i)} \log \left( 1 + \exp (-(w^T x^{(i)} + b)) \right) + (1-t^{(i)}) \log \left( 1 + \exp(w^T x^{(i)}+b) \right) 
 		\end{equation}
 		
-		When $t^i \in {-1, +1}$ then we can substitute $t^{(i)} = \frac{t^{(i)} + 1}{2}$ into the expression above:
+		When $t^i \in \{-1, +1\}$ then we can substitute $t^{(i)} = \frac{t^{(i)} + 1}{2}$ into the expression above:
 		
 		\begin{equation}
 			L(w,b,D) = \sum_{i=1}^{N} \frac{t^{(i)}+1}{2} \log \left( 1 + \exp (-(w^T x^{(i)} + b)) \right) + \frac{1-t^{(i)}}{2} \log \left( 1 + \exp(w^T x^{(i)}+b) \right) 
@@ -169,13 +169,13 @@
 	
 	\begin{framed}
 		\textbf{Solution:}\\
-		Notice first the since $A$ is symmetric, so is $^2$. Moreover since $A$ has non-zero eigenvalues, $A^2$ has all its eigenvalues positive, hence it is a positive definite matrix. Let us define $Q := A^2$. Observe also that the function can be rewritten as:
+		Notice first the since $A$ is symmetric, so is $A^2$. Moreover since $A$ has non-zero eigenvalues, $A^2$ has all its eigenvalues positive, hence it is a positive definite matrix. Let us define $Q := A^2$. Observe also that the function can be rewritten as:
 		
 		\begin{equation}
 			f(x) = \frac{1}{2}x^TQx - x^Tb + c \text{\quad Where } b := Qa, c := \frac{1}{2}a^TQa
 		\end{equation}
 
-		a) Since the optimization problem is without constraints, the first order necessary optimality condition for the minimizer reads as $\nabla f(x^*) = 0$, that is $Qx^* = b$, from where $x^* = Q^{-1}b = Q^{-1}Qa = a$. All these computations are meaningful because $Q^-1$ exists. The second order sufficient condition of minimality reads as $D^2f(x^*) = Q = A^2 > 0$ which is true. Hence $x^* = a$ is the unique global minimizer of $f$ on $\mathbb{R}^n$.
+		a) Since the optimization problem is without constraints, the first order necessary optimality condition for the minimizer reads as $\nabla f(x^*) = 0$, that is $Qx^* = b$, from where $x^* = Q^{-1}b = Q^{-1}Qa = a$. All these computations are meaningful because $Q^{-1}$ exists. The second order sufficient condition of minimality reads as $D^2f(x^*) = Q = A^2 > 0$ which is true. Hence $x^* = a$ is the unique global minimizer of $f$ on $\mathbb{R}^n$.
 		
 		b) The updates in the gradient descent starting from $x^0$ are:
 		
@@ -223,7 +223,7 @@
 								\end{bmatrix}
 		\end{equation}
 		
-		and the function can be written as $f(x_1,x_2) = \frac{1}{2} \gamma_2 (x_1 - a_1)^2$, hence it is independent of the second variable. Setting $\nabla f(x) = 0$ one finds that the candidates for the optimizers are $x^* = (a_1,x_2)$, where $x_2 \in \mathbb{R}$ is arbitrary. Since the function is independent of the second variable and $f(a_1,x_2) = 0 \leq f(y_1,y_2)$ for any $(y_1, y_2) \in \mathbb{R}^2$, one has that all of them are global minimizers that have the same objective function value, hence they are not unique.
+		and the function can be written as $f(x_1,x_2) = \frac{1}{2} \gamma^2 (x_1 - a_1)^2$, hence it is independent of the second variable. Setting $\nabla f(x) = 0$ one finds that the candidates for the optimizers are $x^* = (a_1,x_2)$, where $x_2 \in \mathbb{R}$ is arbitrary. Since the function is independent of the second variable and $f(a_1,x_2) = 0 \leq f(y_1,y_2)$ for any $(y_1, y_2) \in \mathbb{R}^2$, one has that all of them are global minimizers that have the same objective function value, hence they are not unique.
 		
 	\end{framed}
 	
@@ -269,6 +269,74 @@
 		b) We maximize $\frac{\sum_{i=1}^{3} c_i^2 \lambda_i}{\sum_{i=1}^{3} c_i^2}$ when $c_1 = c_2 = 0$ so $x = c_3q_3$ is a multiple of the eigenvector $q_3$ with the largest eigenvalue $\lambda_3$.
 	\end{framed}
 	
+	\section*{Question 9: Linear Regression}
+	a) Let $f$ be some function so that $f(\theta_0,\theta_1)$ outputs a number. For this problem, $f$ is some arbitrary/unknown smooth function (not necessarily the cost function of linear regression, so $f$ may have local optima). Suppose we use gradient descent to try to minimize $f(\theta_0,\theta_1)$ as a function of $\theta_0$ and $\theta_1$. Which of the following statements are true and which are false? Explain.
+	\begin{enumerate}
+		\item Even if the learning rate $\alpha$ is very large, every iteration of gradient descent will decrease the value of $f(\theta_0,\theta_1)$.
+		\item If the learning rate is too small, then gradient descent may take a very long time to converge.
+		\item If $\theta_0$ and $\theta_1$ are initialized at a local minimum, then one iteration will not change their values.
+		\item If $\theta_0$ and $\theta_1$ are initialized so that $\theta_0=\theta_1$, then by symmetry (because we do simultaneous updates to the two parameters), after one iteration of gradient descent, we will still have $\theta_0=\theta_1$.
+		\item If the first few iterations of gradient descent cause $f(\theta_0,\theta_1)$ to increase rather than decrease, then the most likely cause is that we have set the learning rate to too large.
+		\item No matter how $\theta_0$ and $\theta_1$ are initialized, so long as learning rate is sufficiently small, we can safely expect gradient descent to converge to the same solution.
+		\item Setting the learning rate to be very small is not harmful, and can only speed up the convergence of gradient descent.
+	\end{enumerate}
+	
+	b) Suppose that for some linear regression problem, we have some training set, and for our training set we managed to find some $\theta_0, \theta_1$ such that cost function $J(\theta_0,\theta_1)=0$. Which of the statements below are true and which are false? Explain.
+	\begin{enumerate}
+		\item For this to be true, we must have $y^{(i)}=0$ for every value of $i=1,2,\dots,m$.
+		\item Gradient descent is likely to get stuck at a local minimum and fail to find the global minimum.
+		\item For this to be true, we must have $\theta_0=0$ and $\theta_1=0$ so that $\theta_0 + \theta_1x=0$.
+		\item Our training set can be fit perfectly by a straight line, i.e., all of our training examples lie perfectly on some straight line.
+	\end{enumerate}
+	
+	\begin{framed}
+		\textbf{Solution:}\\
+		a)
+		\begin{enumerate}
+			\item (True) If the learning rate is small, gradient descent ends up taking an extremely small step on each iteration, and therefor can take a long time to converge.
+			\item (True) At a local minimum, the derivative (gradient) is zero, so gradient descent will not change the parameters.
+			\item (False) If the learning rate is too large, one step of gradient descent can actually vastly "overshoot" and actually increase the value of $f(\theta_0,\theta_1)$.
+			\item (False) The updates to $\theta_0$ and $\theta_1$ are different (even though we're doing simultaneous updates), so there's no particular reason to update them to be same after one iteration of gradient descent.
+			\item (True) if alpha were small enough, then gradient descent should always successfully take a tiny small downhill and decrease $f(\theta_0,\theta_1)$ at least a little bit. If gradient descent instead increases the objective value, that means alpha is too large (or you have a bug in your code!).
+			\item (False) This is not true, depending on the initial condition, gradient descent may end up at different local optima.
+			\item (False) If the learning rate is small, gradient descent ends up taking an extremely small step on each iteration, so this would actually slow down (rather than speed up) the convergence of the algorithm.
+		\end{enumerate}
+		
+		b)
+		\begin{enumerate}
+			\item (False) So long as all of our training examples lie on a straight line, we will be able to find $\theta_0$ and $\theta_1$ so that $J(\theta_0,\theta_1)=0$. It is not necessary that $y^{(i)}$ for all our examples.
+			\item (False) Not possible as the objective is convex.
+			\item (False) If $J(\theta_0,\theta_1)=0$ that means the line defined by the equation $y = \theta_0 + \theta_1x$ perfectly fits all of our data. There's no particular reason to expect that the values of $\theta_0$ and $\theta_1$ that achieve this are both 0 (unless $y^{(i)}=0$ for all of our training examples).
+			\item (True) Obvious since all the examples lie on straight line.
+		\end{enumerate} 
+	\end{framed}
+	
+	\section*{Question 10: Logistic Regression}
+	You are training a classification model with logistic regression. Which of the following statements are true and which are false? Explain.
+	\begin{enumerate}
+		\item Adding many new features to the model helps prevent overfitting on the training set.
+		\item Introducing regularization to the model always results in equal or better performance on examples not in the training set.
+		\item Introducing regularization to the model always results in equal or better performance on the training set.
+		\item Adding a new feature to the model always results in equal or better performance on the training set
+		\item Using a very large value regularization parameter cannot hurt the performance of your hypothesis; the only reason we do not set to be too large is to avoid numerical problems.
+		\item Because regularization causes cost function to no longer be convex, gradient descent may not always converge to the global minimum.
+		\item Using too large a value of regularization parameter can cause your hypothesis to underfit the data.
+		\item Because logistic regression outputs values $0 \leq y \leq 1$, its range of output values can only be "shrunk" slightly by regularization anyway, so regularization is generally not helpful for it.
+	\end{enumerate}
+	
+	\begin{framed}
+		\textbf{Solution:}\\
+		\begin{enumerate}
+			\item (False) Adding many new features gives us more expressive models which are able to better fit our training set. If too many new features are added, this can lead to overfitting of the training set.
+			\item (False) If we introduce too much regularization, we can underfit the training set and this can lead to worse performance even for examples not in the training set.
+			\item (False) If we introduce too much regularization, we can underfit the training set and have worse performance on the training set.
+			\item (True) Adding many new features gives us more expressive models which are able to better fit our training set. If too many new features are added, this can lead to overfitting of the training set.
+			\item (False) Using a very large value of regularization parameter can lead to underfitting of the training set.
+			\item (False) Regularized logistic regression and regularized linear regression are both convex, and thus gradient descent will still converge to the global minimum.
+			\item (True) A large value of results in a large regularization parameter regularization penalty and thus a strong preference for simpler models which can underfit the data.
+			\item (False) No it is needed as it prevents overfitting
+		\end{enumerate}
+	\end{framed}
 	
 	
 	%%%%%%%%%%% end of doc
